@@ -1,17 +1,19 @@
 pipeline {
     agent any
-
+    tools {
+        maven 'Maven 3.6.3' // Adjust the Maven version as needed
+        jdk 'Java 11' // Adjust the Java version as needed
+    }
     stages {
-        stage('Clone Repository') {
+        stage('Checkout SCM') {
             steps {
-                git url: 'https://github.com/Mohamedjbelii/hello-world.git', branch: 'master'
+                checkout scm
             }
         }
 
         stage('Build') {
             steps {
-                // Add your build steps here
-                echo 'Building...'
+                sh 'mvn clean install'
             }
         }
 
@@ -22,6 +24,11 @@ pipeline {
             }
         }
 
+        stage('Archive Artifacts') {
+            steps {
+                archiveArtifacts artifacts: '**/target/*.jar', allowEmptyArchive: true
+            }
+        }
         stage('Deploy') {
             steps {
                 // Add your deploy steps here
