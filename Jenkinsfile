@@ -1,8 +1,8 @@
 pipeline {
     agent any
     tools {
-        maven 'Maven 3.6.3' // Adjust the Maven version as needed
-        jdk 'Java 11' // Adjust the Java version as needed
+        maven 'maven-3.6.3' // Adjust the Maven version as needed
+        jdk 'java-11' // Adjust the Java version as needed
     }
     stages {
         stage('Checkout SCM') {
