@@ -19,22 +19,23 @@ pipeline {
 
         stage('Deploy to Tomcat') {
             steps {
-        stage('Deploy to Tomcat') {
-            steps {
                 script {
-                                    def url = "http://52.233.163.41:8080/manager/text/deploy?path=/webapp&update=true"
-                                    def tomcatUser = "deployer"
-                                    def tomcatPassword = "password"
-                                    def warFile = "/var/lib/jenkins/workspace/Build and deploy to tomcat/webapp/target/webapp.war"
+def tomcatUrl = "http://52.233.163.41:8080"
+                    def contextPath = "/webapp"
+                    def update = "true"
+                    def tomcatUser = "deployer"
+                    def tomcatPassword = "password"
+                    def warFilePath = "/var/lib/jenkins/workspace/Build and deploy to tomcat/webapp/target/webapp.war"
 
-                                    def response = sh(returnStdout: true, script: '''
-                                        curl -v -u $tomcatUser:$tomcatPassword -T $warFile "http://52.233.163.41:8080/manager/text/deploy?path=/webapp&update=true"
-                                    ''').trim()
+                    def url = "${tomcatUrl}/manager/text/deploy?path=${contextPath}&update=${update}"
 
-                                    echo "Deployment response: $response"
+                    // Quote warFilePath to handle spaces
+                    def response = sh(returnStdout: true, script: """
+                        curl -v -u ${tomcatUser}:${tomcatPassword} -T '${warFilePath}' '${url}'
+                    """).trim()
+
+                    echo "Deployment response: ${response}"
                                 }
-            }
-
             }
         }
     }
