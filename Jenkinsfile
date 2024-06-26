@@ -23,10 +23,10 @@ pipeline {
                     def url = "http://52.233.163.41:8080/manager/text/deploy"
                     def tomcatUser = "deployer"  // Replace with your Tomcat username
                     def tomcatPassword = "password"  // Replace with your Tomcat user's password
-                    def warFile = sh(returnStdout: true, script: 'ls target/*.war').trim()
+                    def warFile = "/var/lib/jenkins/workspace/Build and deploy to tomcat/webapp/target/webapp.war"
 
                     def response = sh(returnStdout: true, script: """
-                        curl -s -u ${tomcatUser}:${tomcatPassword} ${url}?path=/&war=file:${warFile}
+                        curl -s -u ${tomcatUser}:${tomcatPassword} "${url}?path=/&war=file:${warFile}"
                     """)
 
                     echo "Deployment response: ${response}"
