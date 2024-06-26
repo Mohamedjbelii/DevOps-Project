@@ -30,7 +30,7 @@ pipeline {
                         credentialsId: 'tomact host ssh	',
                         url: 'http://52.233.178.153:8080/',
                         contextPath: 'webapp',
-                        war: 'target/*.war'
+                        war: '/var/lib/jenkins/workspace/BuildandDeployOnContainerUI/webapp/target/*.war'
                     )
                 ]
             }
