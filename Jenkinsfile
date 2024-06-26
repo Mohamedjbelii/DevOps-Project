@@ -19,6 +19,8 @@ pipeline {
 
         stage('Deploy to Tomcat') {
             steps {
+        stage('Deploy to Tomcat') {
+            steps {
                 script {
                                     def url = "http://52.233.163.41:8080/manager/text/deploy?path=/webapp&update=true"
                                     def tomcatUser = "deployer"
@@ -31,6 +33,8 @@ pipeline {
 
                                     echo "Deployment response: $response"
                                 }
+            }
+
             }
         }
     }
