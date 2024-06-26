@@ -32,6 +32,16 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying...'
+                    def url = "http://52.233.163.41:8080/manager/text/deploy"
+                    def tomcatUser = "deployer"  // Replace with your Tomcat username
+                    def tomcatPassword = "password"  // Replace with your Tomcat user's password
+                    def warFile = sh(returnStdout: true, script: 'ls target/*.war').trim()
+
+                    def response = sh(returnStdout: true, script: '''
+                        curl -s -u ${tomcatUser}:${tomcatPassword} "${url}?path=/&war=file:${warFile}"
+                    ''')
+
+                    echo "Deployment response: ${response}"
             }
         }
     }
