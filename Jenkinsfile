@@ -26,7 +26,7 @@ pipeline {
                                     def warFile = "/var/lib/jenkins/workspace/Build and deploy to tomcat/webapp/target/webapp.war"
 
                                     def response = sh(returnStdout: true, script: '''
-                                        curl -T $warFile "$url" --user $tomcatUser:$tomcatPassword
+                                        curl -v -u $tomcatUser:$tomcatPassword -T $warFile "http://52.233.163.41:8080/manager/text/deploy?path=/webapp&update=true"
                                     ''').trim()
 
                                     echo "Deployment response: $response"
