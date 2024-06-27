@@ -46,7 +46,7 @@ pipeline {
             }
             steps {
                 script {
-                    echo "credential: $SSH_USR"
+                    echo "credential: ${SSH_USR} "
 
 //                    // Extracting credentials
 //                    def credentialsMap = [
