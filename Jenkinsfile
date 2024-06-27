@@ -1,9 +1,11 @@
 pipeline {
     agent any
+
     tools {
         maven 'maven-3.9.8'
         jdk 'java-13'
     }
+
     stages {
         stage('Checkout Code') {
             steps {
@@ -26,7 +28,7 @@ pipeline {
             environment {
                 WARPATH = '/var/lib/jenkins/workspace/BuildandDeployOnContainerUI/webapp/target/*.war'
                 WARDIR = "${WORKSPACE}/wars"
-                }
+            }
             steps {
                 archiveArtifacts artifacts: WARPATH, allowEmptyArchive: true
                 sh 'mkdir -p ${WARDIR} && cp ${WARPATH} ${WARDIR}/'
@@ -34,6 +36,22 @@ pipeline {
             post {
                 success {
                     echo 'Hello from the archiveArtifacts stage!'
+                }
+            }
+        }
+
+        stage('Debug SSH Credentials') {
+            steps {
+                script {
+                    def credentials = com.cloudbees.plugins.credentials.CredentialsProvider.lookupCredentials(
+                        com.cloudbees.plugins.credentials.common.StandardUsernameCredentials.class,
+                        Jenkins.instance,
+                        null,
+                        null
+                    )
+                    for (cred in credentials) {
+                        println("Credential ID: ${cred.id}, Description: ${cred.description}")
+                    }
                 }
             }
         }
