@@ -49,7 +49,7 @@ pipeline {
                                     removePrefix: '/home/wars',
                                     remoteDirectory: '/usr/local/tomcat/webapps',
                                     execCommand: '''
-                                        docker cp /usr/local/tomcat/webapps/*.war <container_id>:/usr/local/tomcat/webapps/
+                                        docker cp /usr/local/tomcat/webapps/*.war 753ef1dae659:/usr/local/tomcat/webapps/
                                         docker exec 753ef1dae659 sh -c "catalina.sh stop"
                                         docker exec 753ef1dae659 sh -c "catalina.sh start"
                                     '''
