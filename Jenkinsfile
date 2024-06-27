@@ -43,7 +43,7 @@ pipeline {
                 sshPublisher(
                     publishers: [
                         sshPublisherDesc(
-                            configName: "tomcat host ssh",
+                            configName: "ssh_to_docker_tomcat",
                             transfers: [
                                 sshTransfer(
                                     sourceFiles: '/home/wars/*.war',
