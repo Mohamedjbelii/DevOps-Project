@@ -25,10 +25,11 @@ pipeline {
         stage('Archive Artifact') {
             environment {
                 WARPATH = '/var/lib/jenkins/workspace/BuildandDeployOnContainerUI/webapp/target/*.war'
+                WARDIR = "${WORKSPACE}/wars"
                 }
             steps {
                 archiveArtifacts artifacts: WARPATH, allowEmptyArchive: true
-                sh 'mkdir -p /home/wars && cp ${WARPATH} /home/wars/'
+                sh 'mkdir -p ${WARDIR} && cp ${WARPATH} ${WARDIR}/'
             }
             post {
                 success {
