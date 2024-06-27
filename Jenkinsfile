@@ -40,24 +40,15 @@ pipeline {
             }
         }
 
-        stage('Debug SSH Credentials') {
-            steps {
-                script {
-                    def credentials = com.cloudbees.plugins.credentials.CredentialsProvider.lookupCredentials(
-                        com.cloudbees.plugins.credentials.common.StandardUsernameCredentials.class,
-                        Jenkins.instance,
-                        null,
-                        null
-                    )
-                    for (cred in credentials) {
-                        println("Credential ID: ${cred.id}, Description: ${cred.description}")
-                    }
-                }
-            }
-        }
+
 
         stage('Deploy to Tomcat') {
             steps {
+                environment {
+                    YOUR_CRED = credentials('ssh_to_docker_tomcat')
+                }
+                 echo 'the credentials : ${YOUR_CRED_USR}  && ${YOUR_CRED_PSW} '
+
                 sshPublisher(
                     publishers: [
                         sshPublisherDesc(
