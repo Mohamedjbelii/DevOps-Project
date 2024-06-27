@@ -46,6 +46,8 @@ pipeline {
             }
             steps {
                 script {
+                    echo "credential: $SSH_USR"
+
                     // Extracting credentials
                     def credentialsMap = [
                             'SSH_USR': SSH_CREDS_USR,
@@ -57,7 +59,7 @@ pipeline {
                     sshPublisher(
                         publishers: [
                             sshPublisherDesc(
-                                configName: "ssh_to_docker_tomcat",
+                                configName: "dokerhost",
                                 transfers: [
                                     sshTransfer(
                                         sourceFiles: '/home/wars/*.war',
