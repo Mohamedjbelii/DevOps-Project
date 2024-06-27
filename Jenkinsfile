@@ -40,37 +40,44 @@ pipeline {
             }
         }
 
-
-
         stage('Deploy to Tomcat') {
+            environment {
+                YOUR_CRED = credentials('ssh_to_docker_tomcat')
+            }
             steps {
-                environment {
-                    YOUR_CRED = credentials('ssh_to_docker_tomcat')
-                }
-                 echo 'the credentials : ${YOUR_CRED_USR}  && ${YOUR_CRED_PSW} '
+                script {
+                    def credentialsMap = [:]
+                    credentialsMap['YOUR_CRED_USR'] = YOUR_CRED_USR
+                    credentialsMap['YOUR_CRED_PSW'] = YOUR_CRED_PSW
 
-                sshPublisher(
-                    publishers: [
-                        sshPublisherDesc(
-                            configName: "ssh_to_docker_tomcat",
-                            transfers: [
-                                sshTransfer(
-                                    sourceFiles: '/home/wars/*.war',
-                                    removePrefix: '/home/wars',
-                                    remoteDirectory: '/usr/local/tomcat/webapps',
-                                    execCommand: '''
-                                        docker cp /usr/local/tomcat/webapps/*.war 753ef1dae659:/usr/local/tomcat/webapps/
-                                        docker exec 753ef1dae659 sh -c "catalina.sh stop"
-                                        docker exec 753ef1dae659 sh -c "catalina.sh start"
-                                    '''
-                                )
-                            ],
-                            usePromotionTimestamp: false,
-                            useWorkspaceInPromotion: false,
-                            verbose: true
-                        )
-                    ]
-                )
+                    sshPublisher(
+                        publishers: [
+                            sshPublisherDesc(
+                                configName: "ssh_to_docker_tomcat",
+                                transfers: [
+                                    sshTransfer(
+                                        sourceFiles: '/home/wars/*.war',
+                                        removePrefix: '/home/wars',
+                                        remoteDirectory: '/usr/local/tomcat/webapps',
+                                        execCommand: '''
+                                            docker cp /usr/local/tomcat/webapps/*.war 753ef1dae659:/usr/local/tomcat/webapps/
+                                            docker exec 753ef1dae659 sh -c "catalina.sh stop"
+                                            docker exec 753ef1dae659 sh -c "catalina.sh start"
+                                        '''
+                                    )
+                                ],
+                                usePromotionTimestamp: false,
+                                useWorkspaceInPromotion: false,
+                                verbose: true
+                            )
+                        ]
+                    )
+                }
+            }
+            post {
+                always {
+                    echo "The credentials are: ${YOUR_CRED_USR} and ${YOUR_CRED_PSW}"
+                }
             }
         }
 
