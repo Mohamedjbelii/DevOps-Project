@@ -42,7 +42,7 @@ pipeline {
 
         stage('Deploy to Tomcat') {
             environment {
-                SSH_CREDS = credentials('ssh_to_docker_tomcat')
+                SSH_CREDS = credentials('0f73c2d8-7e1c-4218-bcb4-24a136138f90')
             }
             steps {
                 script {
