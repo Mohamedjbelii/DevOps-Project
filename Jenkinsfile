@@ -42,14 +42,18 @@ pipeline {
 
         stage('Deploy to Tomcat') {
             environment {
-                YOUR_CRED = credentials('ssh_to_docker_tomcat')
+                SSH_CREDS = credentials('ssh_to_docker_tomcat')
             }
             steps {
                 script {
-                    def credentialsMap = [:]
-                    credentialsMap['YOUR_CRED_USR'] = YOUR_CRED_USR
-                    credentialsMap['YOUR_CRED_PSW'] = YOUR_CRED_PSW
-
+                    // Extracting credentials
+                    def credentialsMap = [
+                            'SSH_USR': SSH_CREDS_USR,
+                            'SSH_PSW': SSH_CREDS_PSW
+                    ]
+                    // Output for debugging
+                    echo "SSH user is: ${credentialsMap['SSH_USR']}"
+                    echo "SSH password is: ${credentialsMap['SSH_PSW']}"
                     sshPublisher(
                         publishers: [
                             sshPublisherDesc(
@@ -72,11 +76,6 @@ pipeline {
                             )
                         ]
                     )
-                }
-            }
-            post {
-                always {
-                    echo "The credentials are: ${YOUR_CRED_USR} and ${YOUR_CRED_PSW}"
                 }
             }
         }
