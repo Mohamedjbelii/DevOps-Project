@@ -48,14 +48,14 @@ pipeline {
                 script {
                     echo "credential: $SSH_USR"
 
-                    // Extracting credentials
-                    def credentialsMap = [
-                            'SSH_USR': SSH_CREDS_USR,
-                            'SSH_PSW': SSH_CREDS_PSW
-                    ]
-                    // Output for debugging
-                    echo "SSH user is: ${credentialsMap['SSH_USR']}"
-                    echo "SSH password is: ${credentialsMap['SSH_PSW']}"
+//                    // Extracting credentials
+//                    def credentialsMap = [
+//                            'SSH_USR': SSH_CREDS_USR,
+//                            'SSH_PSW': SSH_CREDS_PSW
+//                    ]
+//                    // Output for debugging
+//                    echo "SSH user is: ${credentialsMap['SSH_USR']}"
+//                    echo "SSH password is: ${credentialsMap['SSH_PSW']}"
                     sshPublisher(
                         publishers: [
                             sshPublisherDesc(
