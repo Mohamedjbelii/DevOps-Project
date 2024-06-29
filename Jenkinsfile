@@ -56,6 +56,7 @@ pipeline {
                                         remoteDirectory: '/usr/local/tomcat/webapps',
                                         execCommand: '''
                                             echo "Checking /usr/local/tomcat/webapps directory"
+                                            docker ps -a 
                                             ls -la /usr/local/tomcat/webapps || mkdir -p /usr/local/tomcat/webapps
                                             
                                             echo "Copying WAR files to container"
@@ -63,7 +64,7 @@ pipeline {
                                             docker exec ${CONTAINER_ID} ls -la /usr/local/tomcat/webapp
                                             
                                             echo "Restarting Tomcat"
-                                            docker exec 753ef1dae659 sh -c "catalina.sh stop"
+                                            docker exec  753ef1dae659 sh -c "catalina.sh stop"
                                             docker exec 753ef1dae659 sh -c "catalina.sh start"
                                         '''
                                     )
