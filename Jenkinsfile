@@ -52,20 +52,7 @@ pipeline {
                                 configName: "dokerhost",
                                 transfers: [
                                         sshTransfer(
-                                                sourceFiles: '${WARDIR}/*.war',
-                                        execCommand: '''
-                                            docker ps -a 
-                                            echo "Checking /usr/local/tomcat/webapps directory"
-
-                                            ls -a /usr/local/tomcat/webapps
-                                            echo "Copying WAR files to container"
-                                            docker cp /usr/local/tomcat/webapps/*.war 753ef1dae659:/usr/local/tomcat/webapps/
-                                            docker exec ${CONTAINER_ID} ls -la /usr/local/tomcat/webapp
-                                            
-                                            echo "Restarting Tomcat"
-                                            docker exec  753ef1dae659 sh -c "catalina.sh stop"
-                                            docker exec 753ef1dae659 sh -c "catalina.sh start"
-                                        '''
+                                                sourceFiles: '${WARDIR}/*.war'
                                     )
                                 ],
                                 verbose: true
