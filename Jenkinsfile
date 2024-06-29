@@ -54,7 +54,7 @@ pipeline {
                     } else {
                         error "No WAR files found in ${WARDIR}"
                     }
-                }
+
 
                     sshPublisher(
                         publishers: [
