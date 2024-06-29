@@ -51,9 +51,7 @@ pipeline {
                             sshPublisherDesc(
                                 configName: "dokerhost",
                                 transfers: [
-                                        sshTransfer(
-                                                sourceFiles: '/var/lib/jenkins/workspace/BuildandDeployOnContainerUI/webapp/target/*.war'
-                                    )
+                                        sshTransfer(sourceFiles: '/var/lib/jenkins/workspace/BuildandDeployOnContainerUI/wars/webapp.war')
                                 ],
                                 verbose: true
                             )
