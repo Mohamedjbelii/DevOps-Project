@@ -52,7 +52,7 @@ pipeline {
                                 configName: "dokerhost",
                                 transfers: [
                                         sshTransfer(
-                                                sourceFiles: '$/var/lib/jenkins/workspace/BuildandDeployOnContainerUI/webapp/target/*.war'
+                                                sourceFiles: '/var/lib/jenkins/workspace/BuildandDeployOnContainerUI/webapp/target/*.war'
                                     )
                                 ],
                                 verbose: true
