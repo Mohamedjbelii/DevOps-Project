@@ -59,10 +59,10 @@ pipeline {
                             sshPublisherDesc(
                                 configName: "dokerhost",
                                 transfers: [
-                                        sshTransfer(sourceFiles: '${WARDIR}/*.war'),
-                                        sshTransfer(removePrefix: '${WARDIR}'),
-                                        sshTransfer(remoteDirectory: '/usr/local/tomcat/webapps'),
+                                        sshTransfer(sourceFiles: '${WARDIR}/*.war',
+                                                removePrefix: '${WARDIR}'),
                                         sshTransfer(
+                                        remoteDirectory: '/usr/local/tomcat/webapps',
                                         execCommand: '''
                                             docker ps -a 
                                             echo "Checking /usr/local/tomcat/webapps directory"
