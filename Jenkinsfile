@@ -45,26 +45,24 @@ pipeline {
 
         stage('Deploy to Tomcat') {
 
-            steps {
-                script {
-
-                    def warFiles = sh(script: "ls ${WARDIR}/*.war", returnStdout: true).trim()
-                    if (warFiles) {
-                        echo "WAR files found: ${warFiles}"
-                    } else {
-                        error "No WAR files found in ${WARDIR}"
-                    }
-
-
+            steps ([$class: 'BapSshPromotionPublisherPlugin']){
+//                script {
+//
+//                    def warFiles = sh(script: "ls ${WARDIR}/*.war", returnStdout: true).trim()
+//                    if (warFiles) {
+//                        echo "WAR files found: ${warFiles}"
+//                    } else {
+//                        error "No WAR files found in ${WARDIR}"
+//                    }
                     sshPublisher(
                         publishers: [
                             sshPublisherDesc(
                                 configName: "dokerhost",
                                 transfers: [
-                                    sshTransfer(
-                                        sourceFiles: '${WARDIR}/*.war',
-                                        removePrefix: '${WARDIR}',
-                                        remoteDirectory: '/usr/local/tomcat/webapps',
+                                        sshTransfer(sourceFiles: '${WARDIR}/*.war'),
+                                        sshTransfer(removePrefix: '${WARDIR}'),
+                                        sshTransfer(remoteDirectory: '/usr/local/tomcat/webapps'),
+                                        sshTransfer(
                                         execCommand: '''
                                             docker ps -a 
                                             echo "Checking /usr/local/tomcat/webapps directory"
@@ -96,5 +94,5 @@ pipeline {
                 echo 'Notifying...'
             }
         }
-    }
 }
+
