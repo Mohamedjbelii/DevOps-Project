@@ -55,9 +55,14 @@ pipeline {
                                         removePrefix: '/var/lib/jenkins/workspace/BuildandDeployOnContainerUI/webapp/target/',
                                         remoteDirectory: '/usr/local/tomcat/webapps',
                                         execCommand: '''
-                                            ls -la /usr/local/tomcat/webapps
+                                            echo "Checking /usr/local/tomcat/webapps directory"
+                                            ls -la /usr/local/tomcat/webapps || mkdir -p /usr/local/tomcat/webapps
+                                            
+                                            echo "Copying WAR files to container"
                                             docker cp /usr/local/tomcat/webapps/*.war 753ef1dae659:/usr/local/tomcat/webapps/
                                             docker exec ${CONTAINER_ID} ls -la /usr/local/tomcat/webapp
+                                            
+                                            echo "Restarting Tomcat"
                                             docker exec 753ef1dae659 sh -c "catalina.sh stop"
                                             docker exec 753ef1dae659 sh -c "catalina.sh start"
                                         '''
