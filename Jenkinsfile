@@ -46,21 +46,13 @@ pipeline {
         stage('Deploy to Tomcat') {
 
             steps ([$class: 'BapSshPromotionPublisherPlugin']){
-
-//
-//                    def warFiles = sh(script: "ls ${WARDIR}/*.war", returnStdout: true).trim()
-//                    if (warFiles) {
-//                        echo "WAR files found: ${warFiles}"
-//                    } else {
-//                        error "No WAR files found in ${WARDIR}"
-//                    }
                     sshPublisher(
                         publishers: [
                             sshPublisherDesc(
                                 configName: "dokerhost",
                                 transfers: [
-                                        sshTransfer(sourceFiles: '${WARDIR}/*.war'),
                                         sshTransfer(
+                                                sourceFiles: '${WARDIR}/*.war',
                                         execCommand: '''
                                             docker ps -a 
                                             echo "Checking /usr/local/tomcat/webapps directory"
@@ -76,8 +68,6 @@ pipeline {
                                         '''
                                     )
                                 ],
-                                usePromotionTimestamp: false,
-                                useWorkspaceInPromotion: false,
                                 verbose: true
                             )
                         ]
