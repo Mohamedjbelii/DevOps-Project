@@ -36,6 +36,9 @@ pipeline {
             post {
                 success {
                     echo 'Hello from the archiveArtifacts stage!'
+                    sh 'ls -a ${WARDIR} '
+
+
                 }
             }
         }
@@ -45,20 +48,29 @@ pipeline {
             steps {
                 script {
 
+                    def warFiles = sh(script: "ls ${WARDIR}/*.war", returnStdout: true).trim()
+                    if (warFiles) {
+                        echo "WAR files found: ${warFiles}"
+                    } else {
+                        error "No WAR files found in ${WARDIR}"
+                    }
+                }
+
                     sshPublisher(
                         publishers: [
                             sshPublisherDesc(
                                 configName: "dokerhost",
                                 transfers: [
                                     sshTransfer(
-                                        sourceFiles: 'WARPATH',
-                                        removePrefix: '/var/lib/jenkins/workspace/BuildandDeployOnContainerUI/webapp/target/',
+                                        sourceFiles: '${WARDIR}/*.war',
+                                        removePrefix: '${WARDIR}',
                                         remoteDirectory: '/usr/local/tomcat/webapps',
                                         execCommand: '''
-                                            echo "Checking /usr/local/tomcat/webapps directory"
                                             docker ps -a 
-                                            ls -la /usr/local/tomcat/webapps || mkdir -p /usr/local/tomcat/webapps
-                                            
+                                            echo "Checking /usr/local/tomcat/webapps directory"
+                                            if [ ! -d /usr/local/tomcat/webapps ]; then
+                                                sudo mkdir -p /usr/local/tomcat/webapps
+                                            fi
                                             echo "Copying WAR files to container"
                                             docker cp /usr/local/tomcat/webapps/*.war 753ef1dae659:/usr/local/tomcat/webapps/
                                             docker exec ${CONTAINER_ID} ls -la /usr/local/tomcat/webapp
