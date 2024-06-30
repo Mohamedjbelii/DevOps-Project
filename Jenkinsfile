@@ -62,7 +62,7 @@ pipeline {
                                                                     makeEmptyDirs: false,
                                                                     noDefaultExcludes: false,
                                                                     patternSeparator: '[, ]+',
-                                                                    remoteDirectory: '/opt/docker',
+                                                                    remoteDirectory: '//opt/docker',
                                                                     remoteDirectorySDF: false,
                                                                     sourceFiles: 'wars/*.war')],
                                                                     usePromotionTimestamp: false,
