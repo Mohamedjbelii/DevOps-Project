@@ -64,7 +64,6 @@ pipeline {
                                                                     patternSeparator: '[, ]+',
                                                                     remoteDirectory: '/opt/docker',
                                                                     remoteDirectorySDF: false,
-                                                                    removePrefix: '/var/lib/jenkins/workspace/CopyArtificatIntoAnsible/wars/',
                                                                     sourceFiles: 'wars/*.war')],
                                                                     usePromotionTimestamp: false,
                                                                     useWorkspaceInPromotion: false,
