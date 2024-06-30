@@ -42,7 +42,14 @@ pipeline {
                 }
             }
         }
-
+        stage('Print Workspace') {
+            steps {
+                script {
+                    echo "Workspace Directory: ${pwd()}"
+                    sh 'ls -l wars/*.war'
+                }
+            }
+        }
         stage('Deploy to ansible') {
             steps (){
                 sshPublisher(publishers:
@@ -58,7 +65,7 @@ pipeline {
                                                                     remoteDirectory: '/opt/docker',
                                                                     remoteDirectorySDF: false,
                                                                     removePrefix: '/var/lib/jenkins/workspace/CopyArtificatIntoAnsible/wars/',
-                                                                    sourceFiles: '/var/lib/jenkins/workspace/CopyArtificatIntoAnsible/wars/*.war')],
+                                                                    sourceFiles: 'wars/*.war')],
                                                                     usePromotionTimestamp: false,
                                                                     useWorkspaceInPromotion: false,
                                                                     verbose: true)])
