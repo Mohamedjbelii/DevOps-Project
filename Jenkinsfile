@@ -43,7 +43,7 @@ pipeline {
             }
         }
 
-        stage('Deploy to Tomcat') {
+        stage('Deploy to ansible') {
             steps (){
                 sshPublisher(publishers:
                         [sshPublisherDesc(configName: 'ansible-server',
@@ -61,7 +61,7 @@ pipeline {
                                                                     sourceFiles: '/var/lib/jenkins/workspace/CopyArtificatIntoAnsible/wars/*.war')],
                                                                     usePromotionTimestamp: false,
                                                                     useWorkspaceInPromotion: false,
-                                                                    verbose: false)])
+                                                                    verbose: true)])
 
             }
         }
