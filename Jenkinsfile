@@ -44,24 +44,24 @@ pipeline {
         }
 
         stage('Deploy to Tomcat') {
-
             steps (){
                 sshPublisher(publishers:
-                        [sshPublisherDesc(configName: 'dokerhost',
-                                transfers: [
-                                        sshTransfer(cleanRemote: false,
-                                                excludes: '',
-                                                execCommand: '',
-                                                execTimeout: 120000,
-                                                flatten: false,
-                                                makeEmptyDirs: false,
-                                                noDefaultExcludes: false,
-                                                patternSeparator: '[, ]+',
-                                                remoteDirectory: '/usr/local/tomcat/webapps',
-                                                remoteDirectorySDF: false,
-                                                removePrefix: '/var/lib/jenkins/workspace/BuildandDeployOnContainerUI/wars/',
-                                                sourceFiles: '/var/lib/jenkins/workspace/BuildandDeployOnContainerUI/wars/webapp.war')],
-                                usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: true)])
+                        [sshPublisherDesc(configName: 'ansible-server',
+                                            transfers: [sshTransfer(cleanRemote: false,
+                                                                    excludes: '',
+                                                                    execCommand: '',
+                                                                    execTimeout: 120000,
+                                                                    flatten: false,
+                                                                    makeEmptyDirs: false,
+                                                                    noDefaultExcludes: false,
+                                                                    patternSeparator: '[, ]+',
+                                                                    remoteDirectory: '/opt/docker',
+                                                                    remoteDirectorySDF: false,
+                                                                    removePrefix: '/var/lib/jenkins/workspace/CopyArtificatIntoAnsible/wars/',
+                                                                    sourceFiles: '/var/lib/jenkins/workspace/CopyArtificatIntoAnsible/wars/*.war')],
+                                                                    usePromotionTimestamp: false,
+                                                                    useWorkspaceInPromotion: false,
+                                                                    verbose: false)])
 
             }
         }
